@@ -2,6 +2,26 @@ import numpy as np
 import torch
 
 
+def relu(x: torch.Tensor) -> torch.Tensor:
+    return torch.maximum(x, torch.tensor(0.0))
+
+
+def relu6(x: torch.Tensor) -> torch.Tensor:
+    return torch.clamp(x, min=0.0, max=6.0)
+
+
+def silu(x: torch.Tensor) -> torch.Tensor:
+    return x * torch.sigmoid(x)
+
+
+def gelu_tanh(x: torch.Tensor) -> torch.Tensor:
+    return (
+        0.5
+        * x
+        * (1.0 + torch.tanh(np.sqrt(2.0 / np.pi) * (x + 0.044715 * torch.pow(x, 3))))
+    )
+
+
 def softmax_np(x: np.ndarray) -> np.ndarray:
     exp = np.exp(x - np.max(x, axis=-1, keepdims=True))
     return exp / np.sum(exp, axis=-1, keepdims=True)
